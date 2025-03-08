@@ -1,0 +1,62 @@
+# 数据路径配置
+train_set_path: 'Lav-DF_processed/train'  # 训练集路径
+test_set_path: 'Lav-DF_processed/test'    # 测试集路径
+dev_set_path: 'Lav-DF_processed/dev'      # 验证集路径
+store_model_dir: 'output/models'          # 模型保存目录
+evaluate_path: 'output/evaluation.txt'     # 评估结果保存路径
+
+# 训练参数配置
+train:
+    save_steps: 5                # 每隔多少步保存一次模型
+    iters: 100                  # 总训练迭代次数
+    loaded_model_num: 0         # 加载预训练模型的迭代次数，0表示不加载
+    loaded_model: False         # 是否加载预训练模型
+    batch_size: 8             # 训练批次大小
+    num_workers: 2             # 数据加载的线程数
+    early_stopping_patience: 10 # 早停的耐心值，验证集性能多少轮未提升就停止训练
+    gradient_accumulation_steps: 1  # 梯度累积步数，用于处理大批次
+
+# 日志配置
+logger:
+    logger_dir: 'output/logs'   # 日志保存目录
+    tag: 'lav_df'              # 实验标签，用于区分不同实验
+    log_interval: 100          # 日志记录间隔
+
+# 优化器配置
+optimizer:
+    lr: 0.001                  # 初始学习率
+    beta1: 0.9                 # Adam优化器的beta1参数
+    beta2: 0.999              # Adam优化器的beta2参数
+    amsgrad: True             # 是否使用AMSGrad变体
+    weight_decay: 0.0001      # L2正则化系数
+    grad_norm: 10             # 梯度裁剪阈值
+    warmup_steps: 1000        # 学习率预热步数
+    scheduler: 'cosine'       # 学习率调度器类型
+
+# 损失函数配置
+loss:
+    margin: 700               # 对比损失的边界值
+    weight_decay: 0.0001      # 损失函数的权重衰减
+
+# 数据处理配置
+data:
+    train_split: 0.8          # 训练集占比
+    val_split: 0.1           # 验证集占比
+    test_split: 0.1          # 测试集占比
+    shuffle: True            # 是否打乱数据
+    seed: 42                 # 随机种子
+    max_seq_length: 512      # 最大序列长度
+    num_workers: 4           # 数据加载的线程数
+
+# 模型配置
+model:
+    hidden_size: 512         # 隐藏层大小
+    num_layers: 4           # 网络层数
+    dropout: 0.1            # Dropout比率
+    bidirectional: True     # 是否使用双向网络
+
+# 音素特征配置
+phoneme:
+    num_phonemes: 40        # 音素类别数量
+    feature_dim: 512        # 音素特征维度
+    output_dir: 'output/phoneme_sequences'  # 音素序列输出目录
